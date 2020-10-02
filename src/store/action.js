@@ -5,6 +5,7 @@ import {
   FETCH_ARTICLES,
   FETCH_TAGS,
   SET_TAG,
+  FETCH_TAG_ARTICLES,
 } from "./types";
 
 export function signUp(user) {
@@ -44,6 +45,13 @@ export function fetchTags(data) {
 export function setTags(data) {
   return {
     type: SET_TAG,
+    payload: data,
+  };
+}
+
+export function fetchTagArticles(data) {
+  return {
+    type: FETCH_TAG_ARTICLES,
     payload: data,
   };
 }

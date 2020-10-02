@@ -1,10 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setTags } from "../store/action";
+import { fetchTagArticles } from "../store/action";
 
 class Tags extends React.Component {
-  handleTabClick = async (tag) => {
-    this.props.dispatch(setTags(tag));
+  handleTagClick = async (tag) => {
+    let articleUrl = `https://conduit.productionready.io/api/articles?limit=10&offset=0&tag=${tag}`;
+    let response = await fetch(articleUrl);
+    let data = await response.json();
+    this.props.dispatch(fetchTagArticles({ tag: tag, articles: data.articles }));
+    // this.props.dispatch(setTags(tag));
   };
   render() {
     let { tags } = this.props;
@@ -15,7 +19,7 @@ class Tags extends React.Component {
           <div className="tags">
             {tags.map((elem, index) => {
               return (
-                <span onClick={() => this.handleTabClick(elem)} key={index}>
+                <span onClick={() => this.handleTagClick(elem)} key={index}>
                   {elem}
                 </span>
               );

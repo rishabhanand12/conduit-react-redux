@@ -5,7 +5,6 @@ import { fetchArticles } from "../store/action";
 
 class ArticleList extends React.Component {
   handleTabClick = async (tab) => {
-    let { activeTab } = this.props.state.tags;
     let authToken = localStorage.getItem("key");
     if (tab === "yourfeed") {
       let articleUrl =
@@ -24,18 +23,13 @@ class ArticleList extends React.Component {
       let res = await fetch(articleUrl);
       let data = await res.json();
       this.props.dispatch(fetchArticles(data.articles));
-    } else {
-      let articleUrl = `https://conduit.productionready.io/api/articles?limit=10&offset=0&tag=${activeTab}`;
-      let response = await fetch(articleUrl);
-      let data = await response.json();
-      this.props.dispatch(fetchArticles(data.articles));
     }
   };
 
   render() {
     let { isLoggedIn } = this.props.state.user;
     let { articles } = this.props.state.articles;
-    let { activeTab } = this.props.state.tags;
+    let { activeTab } = this.props.state.articles;
     return (
       <>
         <section className="main-articles margin">
@@ -56,7 +50,7 @@ class ArticleList extends React.Component {
             </span>
             {activeTab ? (
               <span
-                onClick={() => this.handleTabClick(activeTab)}
+                // onClick={() => this.handleTabClick(activeTab)}
                 className="tag-span"
               >
                 {activeTab}
@@ -87,7 +81,7 @@ class ArticleList extends React.Component {
                           </time>
                         </div>
                         <span>
-                          <i class="fal fa-heart"></i>
+                          <i className  ="fal fa-heart"></i>
                           {elem.favoritesCount}
                         </span>
                       </div>

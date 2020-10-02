@@ -1,9 +1,17 @@
-import { FETCH_ARTICLES } from "../types";
+import { FETCH_ARTICLES,FETCH_TAG_ARTICLES } from "../types";
 
-export default function articleReducer(state = {}, action) {
+export default function articleReducer(state = { activeTab: null }, action) {
   switch (action.type) {
     case FETCH_ARTICLES:
-      return Object.assign({}, state, { articles: action.payload });
+      return Object.assign({}, state, {
+        activeTab: null,
+        articles: action.payload,
+      });
+    case FETCH_TAG_ARTICLES:
+      return Object.assign({}, state, {
+        activeTab: action.payload.tag,
+        articles: action.payload.articles,
+      });
     // return {...state, articles: [....articles,action.payload]}
     default:
       return state;

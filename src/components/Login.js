@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { login } from "../store/action";
+import { withRouter } from "react-router-dom";
 class Login extends React.Component {
   state = {
     email: "",
@@ -15,17 +16,22 @@ class Login extends React.Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
-    let loginUrl = "https://conduit.productionready.io/api/users/login";
-    let res = await fetch(loginUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user: this.state }),
-    });
-    let data = await res.json();
-    localStorage.setItem("key", data.user.token);
-    this.props.dispatch(login(data.user));
+    try {
+      let loginUrl = "https://conduit.productionready.io/api/users/login";
+      let res = await fetch(loginUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user: this.state }),
+      });
+      let data = await res.json();
+      localStorage.setItem("key", data.user.token);
+      this.props.dispatch(login(data.user));
+      this.props.history.push("/");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   render() {
@@ -56,7 +62,7 @@ class Login extends React.Component {
               <input
                 type="submit"
                 className="text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg"
-                value="Sign Up"
+                value="Login"
               />
             </div>
           </section>
@@ -70,4 +76,4 @@ function mapState(state) {
   return state.tags;
 }
 
-export default connect(mapState)(Login);
+export default connect(mapState)(withRouter(Login));

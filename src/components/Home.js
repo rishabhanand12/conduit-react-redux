@@ -15,7 +15,7 @@ class Home extends React.Component {
             Authorization: `Token ${authToken}`,
           },
         });
-        let userData = user.json();
+        let userData = await user.json();
         this.props.dispatch(login(userData.user));
       }
       let articleUrl =

@@ -30,6 +30,12 @@ class App extends React.Component {
           <Route path="/profile/:id">
             <Profile />
           </Route>
+          {/* <Route path="/new">
+            <NewArticle />
+          </Route>
+          <Route path="/settings">
+            <Settings />
+          </Route> */}
         </Switch>
       </>
     );
