@@ -12,7 +12,7 @@ export default class NewArticle extends React.Component {
     if (name === "tagList") {
       var tags = value.split(" ");
       this.setState({
-        [name]: this.state.name.concat(tags),
+        [name]: tags,
       });
     }
     this.setState({
@@ -49,7 +49,7 @@ export default class NewArticle extends React.Component {
             type="text"
             name="title"
             placeholder="Article Title"
-            value={this.state.name}
+            value={this.state.title}
             required
           />
           <input
