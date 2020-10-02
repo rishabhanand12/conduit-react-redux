@@ -8,6 +8,7 @@ import Header from "../components/Header";
 import Article from "../components/Article";
 import Profile from "../components/Profile";
 import NewArticle from "../components/NewArticle";
+import Settings from '../components/Settings'
 // import { fetchUser } from "../store/action";
 class App extends React.Component {
   render() {
@@ -34,9 +35,9 @@ class App extends React.Component {
           <Route path="/new">
             <NewArticle />
           </Route>
-          {/* <Route path="/settings">
+          <Route path="/settings">
             <Settings />
-          </Route> */}
+          </Route>
         </Switch>
       </>
     );

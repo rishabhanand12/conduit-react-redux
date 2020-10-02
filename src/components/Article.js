@@ -1,10 +1,12 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { Comment } from "./Comment";
 
 class Article extends React.Component {
   state = {
     article: null,
+    comments: null,
   };
 
   componentDidMount = async () => {
@@ -13,9 +15,14 @@ class Article extends React.Component {
       let url = `https://conduit.productionready.io/api/articles/${articleSlug}`;
       let res = await fetch(url);
       let data = await res.json();
-      console.log(data);
       this.setState({
         article: data.article,
+      });
+      let commentUrl = `https://conduit.productionready.io/api/articles/${articleSlug}/comments`;
+      let commentResponse = await fetch(commentUrl);
+      let commentData = await commentResponse.json();
+      this.setState({
+        comments: commentData.comments,
       });
     } catch (err) {
       console.error(err);
@@ -46,9 +53,7 @@ class Article extends React.Component {
             <p>{article.description}</p>
           </div>
         </section>
-        {/* <section className="comment-section">
-            
-        </section> */}
+        <Comment comments={this.state.comments} />
       </>
     );
   }

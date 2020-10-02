@@ -33,7 +33,7 @@ export default class NewArticle extends React.Component {
         },
         body: JSON.stringify({ article: this.state }),
       });
-      let data = response.json();
+      let data = await response.json();
       this.props.history.push(`/article/${data.article.slug}`);
     } catch (err) {
       console.error(err);
