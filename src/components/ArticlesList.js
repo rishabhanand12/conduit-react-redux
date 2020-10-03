@@ -4,25 +4,66 @@ import { Link } from "react-router-dom";
 import { fetchArticles } from "../store/action";
 
 class ArticleList extends React.Component {
+  state = {
+    activeTab: null
+  };
+  componentDidMount = async () => {
+    try {
+      let authToken = localStorage.getItem("key");
+      if (authToken) {
+        // this.setState({
+        //   activeTab: "Your Feed",
+        // });
+        let articleUrl =
+          "https://conduit.productionready.io/api/articles/feed?limit=10&offset=0";
+        let response = await fetch(articleUrl, {
+          headers: {
+            Authorization: `Token ${authToken}`,
+          },
+        });
+        let data = await response.json();
+        this.props.dispatch(fetchArticles(data.articles));
+      } else {
+        // this.setState({
+        //   activeTab:
+        // })
+        let articleUrl =
+          "https://conduit.productionready.io/api/articles?limit=10&offset=0";
+        let res = await fetch(articleUrl);
+        let data = await res.json();
+        this.props.dispatch(fetchArticles(data.articles));
+        this.setState({
+          articleCount: data.articlesCount,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   handleTabClick = async (tab) => {
     let authToken = localStorage.getItem("key");
-    if (tab === "yourfeed") {
-      let articleUrl =
-        "https://conduit.productionready.io/api/articles/feed?limit=10&offset=0";
-      let response = await fetch(articleUrl, {
-        headers: {
-          Authorization: `Token ${authToken}`,
-        },
-      });
-      let data = await response.json();
-      console.log(data);
-      this.props.dispatch(fetchArticles(data.articles));
-    } else if (tab === "global") {
-      let articleUrl =
-        "https://conduit.productionready.io/api/articles?limit=10&offset=0";
-      let res = await fetch(articleUrl);
-      let data = await res.json();
-      this.props.dispatch(fetchArticles(data.articles));
+    try {
+      if (tab === "yourfeed") {
+        let articleUrl =
+          "https://conduit.productionready.io/api/articles/feed?limit=10&offset=0";
+        let response = await fetch(articleUrl, {
+          headers: {
+            Authorization: `Token ${authToken}`,
+          },
+        });
+        let data = await response.json();
+        console.log(data);
+        this.props.dispatch(fetchArticles(data.articles));
+      } else if (tab === "global") {
+        let articleUrl =
+          "https://conduit.productionready.io/api/articles?limit=10&offset=0";
+        let res = await fetch(articleUrl);
+        let data = await res.json();
+        this.props.dispatch(fetchArticles(data.articles));
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -30,6 +71,7 @@ class ArticleList extends React.Component {
     let { isLoggedIn } = this.props.state.user;
     let { articles } = this.props.state.articles;
     let { activeTab } = this.props.state.articles;
+    if (!this.props.state.articles.articles) return <h1>Loading</h1>;
     return (
       <>
         <section className="main-articles margin">
@@ -81,8 +123,12 @@ class ArticleList extends React.Component {
                           </time>
                         </div>
                         <span>
-                          <i className  ="fal fa-heart"></i>
-                          {elem.favoritesCount}
+                          {elem.favorited ? (
+                            <i className="fas fa-heart"></i>
+                          ) : (
+                            <i className="far fa-heart"></i>
+                          )}
+                          <span>{elem.favoritesCount}</span>
                         </span>
                       </div>
                     </div>

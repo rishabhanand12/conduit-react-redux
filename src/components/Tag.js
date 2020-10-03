@@ -7,11 +7,16 @@ class Tags extends React.Component {
     let articleUrl = `https://conduit.productionready.io/api/articles?limit=10&offset=0&tag=${tag}`;
     let response = await fetch(articleUrl);
     let data = await response.json();
-    this.props.dispatch(fetchTagArticles({ tag: tag, articles: data.articles }));
+    this.props.dispatch(
+      fetchTagArticles({ tag: tag, articles: data.articles })
+    );
     // this.props.dispatch(setTags(tag));
   };
   render() {
     let { tags } = this.props;
+    if (!tags) {
+      return <h1>Loading</h1>;
+    }
     return (
       <>
         <aside className="tags-div margin">

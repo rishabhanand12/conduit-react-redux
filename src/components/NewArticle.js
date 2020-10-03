@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 export default class NewArticle extends React.Component {
   state = {
     name: "",
@@ -43,40 +43,42 @@ export default class NewArticle extends React.Component {
   render() {
     return (
       <>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            onChange={this.handleChange}
-            type="text"
-            name="title"
-            placeholder="Article Title"
-            value={this.state.title}
-            required
-          />
-          <input
-            onChange={this.handleChange}
-            type="text"
-            name="description"
-            placeholder="What's this article about?"
-            value={this.state.description}
-            required
-          />
-          <textarea
-            onChange={this.handleChange}
-            name="body"
-            placeholder="Write your article(in markdown)"
-            value={this.state.body}
-            required
-          />
-          <input
-            onChange={this.handleChange}
-            type="text"
-            name="tagList"
-            placeholder="Enter tags"
-            value={this.state.tagList.join(" ")}
-            required
-          />
-          <input type="submit" value="Publish Article" />
-        </form>
+        <section className="article-form form-container">
+          <form onSubmit={this.handleSubmit}>
+            <input
+              onChange={this.handleChange}
+              type="text"
+              name="title"
+              placeholder="Article Title"
+              value={this.state.title}
+              required
+            />
+            <input
+              onChange={this.handleChange}
+              type="text"
+              name="description"
+              placeholder="What's this article about?"
+              value={this.state.description}
+              required
+            />
+            <textarea
+              onChange={this.handleChange}
+              name="body"
+              placeholder="Write your article(in markdown)"
+              value={this.state.body}
+              required
+            />
+            <input
+              onChange={this.handleChange}
+              type="text"
+              name="tagList"
+              placeholder="Enter tags"
+              value={this.state.tagList.join(" ")}
+              required
+            />
+            <input type="submit" value="Publish Article" />
+          </form>
+        </section>
       </>
     );
   }

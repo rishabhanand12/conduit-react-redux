@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 class Settings extends React.Component {
   state = {
     image: null,
-    username: this.props.state.user.loggedInUser.username,
-    email: this.props.state.user.loggedInUser.email,
+    username: null,
+    email: null,
     password: "",
     bio: null,
   };
@@ -29,7 +29,7 @@ class Settings extends React.Component {
         },
         body: JSON.stringify({ user: this.state }),
       });
-      let data = await response.json();
+      await response.json();
     } catch (err) {
       console.error(err);
     }
@@ -38,46 +38,57 @@ class Settings extends React.Component {
   render() {
     return (
       <>
-        <h2>Your Settings</h2>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            onChange={this.handleChange}
-            type="text"
-            name="image"
-            value={this.state.image}
-            placeholder="URL of profile picture"
-          />
-          <input
-            onChange={this.handleChange}
-            type="text"
-            name="username"
-            value={this.state.username}
-          />
-          <textarea
-            onChange={this.handleChange}
-            name="bio"
-            value={this.state.bio}
-            placeholder="bio"
-          />
-          <input
-            onChange={this.handleChange}
-            type="email"
-            name="email"
-            value={this.state.email}
-          />
-          <input
-            onChange={this.handleChange}
-            type="password"
-            name="password"
-            placeholder="New Password"
-            value={this.state.password}
-          />
-          <input type="submit" value="Update Settings" />
-        </form>
-        <button>Or Click here to Logout</button>
+        <section className="settings-section">
+          <h2 className="settings-hero">Your Settings</h2>
+          <form
+            className="settings-form form-container"
+            onSubmit={this.handleSubmit}
+          >
+            <input
+              onChange={this.handleChange}
+              type="text"
+              name="image"
+              value={this.state.image}
+              placeholder="URL of profile picture"
+            />
+            <input
+              onChange={this.handleChange}
+              type="text"
+              name="username"
+              value={this.state.username}
+              placeholder="Username"
+            />
+            <textarea
+              onChange={this.handleChange}
+              name="bio"
+              value={this.state.bio}
+              placeholder="Bio"
+            />
+            <input
+              onChange={this.handleChange}
+              type="email"
+              name="email"
+              value={this.state.email}
+              placeholder="Email"
+            />
+            <input
+              onChange={this.handleChange}
+              type="password"
+              name="password"
+              placeholder="New Password"
+              value={this.state.password}
+            />
+            <input type="submit" value="Update Settings" />
+          </form>
+          <button btn className="btn logout-btn">
+            Or Click here to Logout
+          </button>
+        </section>
       </>
     );
   }
 }
-
+function mapState(state) {
+  return { state };
+}
 export default connect(mapState)(Settings);

@@ -18,7 +18,7 @@ class Profile extends React.Component {
       this.setState({
         user: data.profile,
       });
-      let articleUrl = `https://conduit.productionready.io/api/articles?author=${profileSlug}`;
+      let articleUrl = `https://conduit.productionready.io/api/articles?author=${profileSlug}&limit=5&offset=0`;
       let response = await fetch(articleUrl);
       let article = await response.json();
       console.log(article);
@@ -31,13 +31,13 @@ class Profile extends React.Component {
   handleTabClick = async (tab) => {
     let profileSlug = this.props.match.params.id;
     if (tab === "myarticle") {
-      let articleUrl = `https://conduit.productionready.io/api/articles?author=${profileSlug}`;
+      let articleUrl = `https://conduit.productionready.io/api/articles?author=${profileSlug}&limit=5&offset=0`;
       let response = await fetch(articleUrl);
       let article = await response.json();
       console.log(article);
       this.props.dispatch(fetchArticles(article.articles));
     } else if (tab === "favorite") {
-      let articleUrl = `https://conduit.productionready.io/api/articles?favorited=${profileSlug}&limit   =5&offset=0`;
+      let articleUrl = `https://conduit.productionready.io/api/articles?favorited=${profileSlug}&limit=5&offset=0`;
       let response = await fetch(articleUrl);
       let article = await response.json();
       console.log(article);
@@ -53,16 +53,36 @@ class Profile extends React.Component {
     }
     return (
       <>
-        <section className="">
-          <img className="article-avatar" src={user.image} alt="" />
+        <section className="profile-hero">
+          <img className="profile-avatar" src={user.image} alt="" />
           <h2>{user.username}</h2>
-          <button>Follow {user.username}</button>
+          {user.username === this.props.state.user.loggedInUser.username ? (
+            <Link to="/settings">
+              <button className="btn unfollow-btn">
+                Edit Profile Settings
+              </button>
+            </Link>
+          ) : user.following ? (
+            <button className="btn unfollow-btn">
+              Unfollow {user.username}
+            </button>
+          ) : (
+            <button className="btn unfollow-btn">
+              + Follow {user.username}
+            </button>
+          )}
         </section>
-        <section>
-          <span onClick={() => this.handleTabClick("myarticle")}>
+        <section className="profile-articles container">
+          <span
+            className="tag-span"
+            onClick={() => this.handleTabClick("myarticle")}
+          >
             My Articles
           </span>
-          <span onClick={() => this.handleTabClick("favorite")}>
+          <span
+            className="tag-span"
+            onClick={() => this.handleTabClick("favorite")}
+          >
             Favorited Articles
           </span>
           {articles.map((elem, index) => {
@@ -90,8 +110,12 @@ class Profile extends React.Component {
                         </time>
                       </div>
                       <span>
-                        <i class="fal fa-heart"></i>
-                        {elem.favoritesCount}
+                        {elem.favorited ? (
+                          <i className="fas fa-heart"></i>
+                        ) : (
+                          <i className="far fa-heart"></i>
+                        )}
+                        <span>{elem.favoritesCount}</span>
                       </span>
                     </div>
                   </div>

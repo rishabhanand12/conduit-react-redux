@@ -4,9 +4,7 @@ import { NavLink } from "react-router-dom";
 
 class Header extends React.Component {
   render() {
-    let { isLoggedIn } = this.props.state.user;
-    console.log(isLoggedIn);
-    console.log(this.props.state)
+    let { isLoggedIn, loggedInUser } = this.props.state.user;
     return (
       <>
         <header className="header container">
@@ -15,9 +13,7 @@ class Header extends React.Component {
           </NavLink>
           <nav className="header-nav">
             {isLoggedIn ? (
-              <AuthenticatedHeader
-                user={this.props.state.user.loggedInUser.username}
-              />
+              <AuthenticatedHeader user={loggedInUser.username} />
             ) : (
               <UnAuthenticatedHeader />
             )}
@@ -33,16 +29,24 @@ function AuthenticatedHeader(props) {
     <>
       <ul>
         <li>
-          <NavLink to="/">Home</NavLink>
+          <NavLink activeClassName="active-link" to="/">
+            Home
+          </NavLink>
         </li>
         <li>
-          <NavLink to="/new">New Article</NavLink>
+          <NavLink activeClassName="active-link" to="/new">
+            New Article
+          </NavLink>
         </li>
         <li>
-          <NavLink to="/settings">Settings</NavLink>
+          <NavLink activeClassName="active-link" to="/settings">
+            Settings
+          </NavLink>
         </li>
         <li>
-          <NavLink to="">{props.user}</NavLink>
+          <NavLink activeClassName="active-link" to={`/profile/${props.user}`}>
+            {props.user}
+          </NavLink>
         </li>
       </ul>
     </>
@@ -52,15 +56,23 @@ function AuthenticatedHeader(props) {
 function UnAuthenticatedHeader() {
   return (
     <>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-      <li>
-        <NavLink to="/login">Login</NavLink>
-      </li>
-      <li>
-        <NavLink to="/signup">Sign Up</NavLink>
-      </li>
+      <ul>
+        <li>
+          <NavLink activeClassName="active-link" to="/">
+            Home
+          </NavLink>
+        </li>
+        <li>
+          <NavLink activeClassName="active-link" to="/login">
+            Login
+          </NavLink>
+        </li>
+        <li>
+          <NavLink activeClassName="active-link" to="/signup">
+            Sign Up
+          </NavLink>
+        </li>
+      </ul>
     </>
   );
 }

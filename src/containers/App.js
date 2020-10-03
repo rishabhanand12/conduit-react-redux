@@ -8,9 +8,26 @@ import Header from "../components/Header";
 import Article from "../components/Article";
 import Profile from "../components/Profile";
 import NewArticle from "../components/NewArticle";
-import Settings from '../components/Settings'
-// import { fetchUser } from "../store/action";
+import Settings from "../components/Settings";
+import { login } from "../store/action";
 class App extends React.Component {
+  async componentDidMount() {
+    try {
+      let authToken = localStorage.getItem("key");
+      if (authToken) {
+        let userUrl = "https://conduit.productionready.io/api/user";
+        let user = await fetch(userUrl, {
+          headers: {
+            Authorization: `Token ${authToken}`,
+          },
+        });
+        let userData = await user.json();
+        this.props.dispatch(login(userData.user));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
   render() {
     return (
       <>

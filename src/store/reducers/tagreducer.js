@@ -1,4 +1,4 @@
-import { FETCH_TAGS, SET_TAG } from "../types";
+import { FETCH_TAGS } from "../types";
 
 export default function tagReducer(state = {}, action) {
   switch (action.type) {
