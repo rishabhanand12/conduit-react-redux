@@ -6,6 +6,7 @@ import {
   FETCH_TAGS,
   SET_TAG,
   FETCH_TAG_ARTICLES,
+  LOGOUT_USER,
 } from "./types";
 
 export function signUp(user) {
@@ -53,5 +54,12 @@ export function fetchTagArticles(data) {
   return {
     type: FETCH_TAG_ARTICLES,
     payload: data,
+  };
+}
+
+export function logoutUser() {
+  return {
+    type: LOGOUT_USER,
+    payload: null,
   };
 }

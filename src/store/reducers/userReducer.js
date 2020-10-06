@@ -1,4 +1,4 @@
-import { SIGNUP, LOGIN, FETCH_USER } from "../types";
+import { SIGNUP, LOGIN, FETCH_USER, LOGOUT_USER } from "../types";
 export default function userReducer(
   state = { isLoggedIn: false, loggedInUser: null },
   action
@@ -18,6 +18,11 @@ export default function userReducer(
       return Object.assign(
         {},
         (state = { isLoggedIn: true, loggedInUser: action.payload })
+      );
+    case LOGOUT_USER:
+      return Object.assign(
+        {},
+        (state = { isLoggedIn: false, loggedInUser: null })
       );
     default:
       return state;

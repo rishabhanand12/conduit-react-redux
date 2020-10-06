@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-
+import { logoutUser } from "../store/action";
+import { withRouter } from "react-router-dom";
 class Settings extends React.Component {
   state = {
     image: null,
@@ -14,6 +15,12 @@ class Settings extends React.Component {
     this.setState({
       [name]: value,
     });
+  };
+
+  handleLogout = () => {
+    localStorage.clear("key");
+    this.props.history.push("/");
+    this.props.dispatch(logoutUser());
   };
 
   handleSubmit = async (event) => {
@@ -80,7 +87,7 @@ class Settings extends React.Component {
             />
             <input type="submit" value="Update Settings" />
           </form>
-          <button btn className="btn logout-btn">
+          <button onClick={this.handleLogout} btn className="btn logout-btn">
             Or Click here to Logout
           </button>
         </section>
@@ -91,4 +98,4 @@ class Settings extends React.Component {
 function mapState(state) {
   return { state };
 }
-export default connect(mapState)(Settings);
+export default connect(mapState)(withRouter(Settings));

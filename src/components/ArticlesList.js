@@ -11,9 +11,6 @@ class ArticleList extends React.Component {
     try {
       let authToken = localStorage.getItem("key");
       if (authToken) {
-        // this.setState({
-        //   activeTab: "Your Feed",
-        // });
         let articleUrl =
           "https://conduit.productionready.io/api/articles/feed?limit=10&offset=0";
         let response = await fetch(articleUrl, {
@@ -24,9 +21,6 @@ class ArticleList extends React.Component {
         let data = await response.json();
         this.props.dispatch(fetchArticles(data.articles));
       } else {
-        // this.setState({
-        //   activeTab:
-        // })
         let articleUrl =
           "https://conduit.productionready.io/api/articles?limit=10&offset=0";
         let res = await fetch(articleUrl);

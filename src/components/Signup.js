@@ -28,8 +28,8 @@ class Signup extends React.Component {
       });
       console.log(res.statusCode);
       let data = await res.json();
-      console.log(data);
       localStorage.setItem("key", data.user.token);
+      this.props.history.push("/");
       this.props.dispatch(signUp(data.user));
     } catch (err) {
       console.error(err);

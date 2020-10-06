@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { login } from "../store/action";
 import { withRouter } from "react-router-dom";
+
 class Login extends React.Component {
   state = {
     email: "",
@@ -27,8 +28,8 @@ class Login extends React.Component {
       });
       let data = await res.json();
       localStorage.setItem("key", data.user.token);
-      this.props.dispatch(login(data.user));
       this.props.history.push("/");
+      this.props.dispatch(login(data.user));
     } catch (err) {
       console.error(err);
     }
