@@ -8,7 +8,7 @@ class Tags extends React.Component {
     let response = await fetch(articleUrl);
     let data = await response.json();
     this.props.dispatch(
-      fetchTagArticles({ tag: tag, articles: data.articles })
+      fetchTagArticles({ tag: tag, articles: data })
     );
     // this.props.dispatch(setTags(tag));
   };

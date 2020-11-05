@@ -2,11 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchArticles } from "../store/action";
+import Pagination from "./Pagination";
 
 class ArticleList extends React.Component {
-  state = {
-    activeTab: null
-  };
+  // state = {
+  //   activeTab: null,
+  // };
+
   componentDidMount = async () => {
     try {
       let authToken = localStorage.getItem("key");
@@ -19,13 +21,13 @@ class ArticleList extends React.Component {
           },
         });
         let data = await response.json();
-        this.props.dispatch(fetchArticles(data.articles));
+        this.props.dispatch(fetchArticles(data));
       } else {
         let articleUrl =
           "https://conduit.productionready.io/api/articles?limit=10&offset=0";
         let res = await fetch(articleUrl);
         let data = await res.json();
-        this.props.dispatch(fetchArticles(data.articles));
+        this.props.dispatch(fetchArticles(data));
         this.setState({
           articleCount: data.articlesCount,
         });
@@ -48,13 +50,13 @@ class ArticleList extends React.Component {
         });
         let data = await response.json();
         console.log(data);
-        this.props.dispatch(fetchArticles(data.articles));
+        this.props.dispatch(fetchArticles(data));
       } else if (tab === "global") {
         let articleUrl =
           "https://conduit.productionready.io/api/articles?limit=10&offset=0";
         let res = await fetch(articleUrl);
         let data = await res.json();
-        this.props.dispatch(fetchArticles(data.articles));
+        this.props.dispatch(fetchArticles(data));
       }
     } catch (err) {
       console.error(err);
@@ -63,9 +65,9 @@ class ArticleList extends React.Component {
 
   render() {
     let { isLoggedIn } = this.props.state.user;
-    let { articles } = this.props.state.articles;
-    let { activeTab } = this.props.state.articles;
-    if (!this.props.state.articles.articles) return <h1>Loading</h1>;
+    let { articles, activeTab } = this.props.state.articles;
+    // if (!this.props.state.articles.articles) return <h1>Loading</h1>;
+    if (!articles) return <h1>Loading</h1>;
     return (
       <>
         <section className="main-articles margin">
@@ -92,7 +94,7 @@ class ArticleList extends React.Component {
                 {activeTab}
               </span>
             ) : null}
-            {articles.map((elem, index) => {
+            {articles.articles.map((elem, index) => {
               return (
                 <>
                   <li key={index} className="article-list">
@@ -142,6 +144,11 @@ class ArticleList extends React.Component {
               );
             })}
           </div>
+          <Pagination
+            page={home}
+            limit={10}
+            count={this.props.state.articles.articles.articleCount}
+          />
         </section>
       </>
     );

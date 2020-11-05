@@ -21,8 +21,7 @@ class Profile extends React.Component {
       let articleUrl = `https://conduit.productionready.io/api/articles?author=${profileSlug}&limit=5&offset=0`;
       let response = await fetch(articleUrl);
       let article = await response.json();
-      console.log(article);
-      this.props.dispatch(fetchArticles(article.articles));
+      this.props.dispatch(fetchArticles(article));
     } catch (err) {
       console.error(err);
     }
@@ -34,14 +33,12 @@ class Profile extends React.Component {
       let articleUrl = `https://conduit.productionready.io/api/articles?author=${profileSlug}&limit=5&offset=0`;
       let response = await fetch(articleUrl);
       let article = await response.json();
-      console.log(article);
-      this.props.dispatch(fetchArticles(article.articles));
+      this.props.dispatch(fetchArticles(article));
     } else if (tab === "favorite") {
       let articleUrl = `https://conduit.productionready.io/api/articles?favorited=${profileSlug}&limit=5&offset=0`;
       let response = await fetch(articleUrl);
       let article = await response.json();
-      console.log(article);
-      this.props.dispatch(fetchArticles(article.articles));
+      this.props.dispatch(fetchArticles(article));
     }
   };
 
@@ -85,7 +82,7 @@ class Profile extends React.Component {
           >
             Favorited Articles
           </span>
-          {articles.map((elem, index) => {
+          {articles.articles.map((elem, index) => {
             return (
               <>
                 <li key={index} className="article-list">
